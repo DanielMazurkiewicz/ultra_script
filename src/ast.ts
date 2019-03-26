@@ -76,6 +76,7 @@ export enum NodeKind {
   SWITCH,
   THROW,
   TRY,
+  UID,
   VARIABLE,
   VOID,
   WHILE,
@@ -924,6 +925,18 @@ export abstract class Node {
     stmt.name = name;
     stmt.members = members;
     stmt.decorators = decorators;
+    return stmt;
+  }
+
+  static createUidStatement(
+    uniqueIdentifier: StringLiteralExpression,
+    block: BlockStatement,
+    range: Range
+  ): UidStatement {
+    var stmt = new UidStatement();
+    stmt.range = range;
+    stmt.uniqueIdentifier = uniqueIdentifier;
+    stmt.block = block;
     return stmt;
   }
 
@@ -1890,6 +1903,15 @@ export class NamespaceDeclaration extends DeclarationStatement {
 
   /** Array of namespace members. */
   members: Statement[];
+}
+
+/** Represents a `uid` statement. */
+export class UidStatement extends Statement {
+  kind = NodeKind.UID;
+  /** Unique identifier */
+  uniqueIdentifier: StringLiteralExpression;
+  /** Array of uid members. */
+  block: BlockStatement;
 }
 
 /** Represents a `return` statement. */

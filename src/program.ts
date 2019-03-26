@@ -69,6 +69,7 @@ import {
   InterfaceDeclaration,
   MethodDeclaration,
   NamespaceDeclaration,
+  UidStatement,
   TypeDeclaration,
   VariableDeclaration,
   VariableLikeDeclarationStatement,

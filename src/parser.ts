@@ -78,6 +78,7 @@ import {
   TryStatement,
   TypeDeclaration,
   TypeParameterNode,
+  UidStatement,
   VariableStatement,
   VariableDeclaration,
   VoidStatement,
@@ -254,6 +255,12 @@ export class Parser extends DiagnosticEmitter {
       case Token.INTERFACE: {
         tn.next();
         statement = this.parseClassOrInterface(tn, flags, decorators, startPos);
+        decorators = null;
+        break;
+      }
+      case Token.UID: {
+        tn.next();
+        statement = this.parseUid(tn, startPos);
         decorators = null;
         break;
       }
@@ -2165,6 +2172,40 @@ export class Parser extends DiagnosticEmitter {
         tn.range()
       );
     }
+    return null;
+  }
+
+  parseUid(
+    tn: Tokenizer,
+    startPos: i32
+  ): UidStatement | null {
+    // at 'namespace': Identifier '{' (Variable | Function)* '}'
+
+    if (tn.skip(Token.STRINGLITERAL)) {
+      let uniqueIdentifier = Node.createStringLiteralExpression(tn.readString(), tn.range());
+      if (tn.skip(Token.OPENBRACE)) {
+        let statement = this.parseBlockStatement(tn, false);
+        if (!statement) return null;
+        let us = Node.createUidStatement(
+          uniqueIdentifier,
+          statement,
+          tn.range(startPos, tn.pos)
+        );
+        tn.skip(Token.SEMICOLON);
+        return us;
+      } else {
+        this.error(
+          DiagnosticCode._0_expected,
+          tn.range(), "{"
+        );
+      }
+    } else {
+      this.error(
+        DiagnosticCode.String_literal_expected,
+        tn.range()
+      );
+    }
+
     return null;
   }
 

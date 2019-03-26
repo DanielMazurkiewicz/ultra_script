@@ -116,6 +116,7 @@ import {
   InstanceOfExpression,
   InterfaceDeclaration,
   NamespaceDeclaration,
+  UidStatement,
   ReturnStatement,
   SwitchStatement,
   ThrowStatement,

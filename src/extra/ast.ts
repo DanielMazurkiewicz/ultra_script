@@ -61,6 +61,7 @@ import {
   SwitchStatement,
   ThrowStatement,
   TryStatement,
+  UidStatement,
   VariableStatement,
   WhileStatement,
 
@@ -264,6 +265,10 @@ export class ASTBuilder {
       }
       case NodeKind.TRY: {
         this.visitTryStatement(<TryStatement>node);
+        break;
+      }
+      case NodeKind.UID: {
+        this.visitUidStatement(<UidStatement>node);
         break;
       }
       case NodeKind.VARIABLE: {
@@ -1400,6 +1405,14 @@ export class ASTBuilder {
     }
     indent(sb, indentLevel - 1);
     sb.push("}");
+  }
+
+  visitUidStatement(node: UidStatement): void {
+    var sb = this.sb;
+    sb.push("uid ");
+    this.visitNode(node.uniqueIdentifier);
+    sb.push(" ");
+    this.visitNode(node.block);
   }
 
   visitTypeDeclaration(node: TypeDeclaration): void {

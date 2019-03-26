@@ -91,6 +91,7 @@ export enum Token {
   TRY,          // ES2017
   TYPE,         // AS possible identifier
   TYPEOF,       // ES2017
+  UID,          // @ultra/script
   VAR,          // ES2017
   VOID,         // ES2017
   WHILE,        // ES2017
@@ -316,6 +317,12 @@ export function tokenFromKeyword(text: string): Token {
       }
       break;
     }
+    case CharCode.u: {
+      switch (text) {
+        case "uid": return Token.UID;
+      }
+      break;
+    }
     case CharCode.v: {
       switch (text) {
         case "var": return Token.VAR;
@@ -357,6 +364,7 @@ export function tokenIsAlsoIdentifier(token: Token): bool {
     case Token.READONLY:
     case Token.SET:
     case Token.TYPE:
+    case Token.UID:
     case Token.VOID: return true;
     default: return false;
   }
