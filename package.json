@@ -1,7 +1,7 @@
 {
-  "name": "assemblyscript",
-  "version": "0.6.0",
-  "author": "Daniel Wirtz <dcode+assemblyscript@dcode.io>",
+  "name": "@ultra/script",
+  "version": "0.0.1",
+  "author": "Daniel Mazurkiewicz",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
